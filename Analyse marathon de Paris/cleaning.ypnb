@@ -1,0 +1,19 @@
+import pandas as pd
+import json
+
+# Charger le fichier CSV
+df = pd.read_csv("results_2024.csv")
+
+# Convertir les formats de temps au format hh:mm:ss
+time_cols = ['finalResult.finishTime', 'finalResult.chipTimeResult', 'finalResult.gunTime', 'splits.start', 'splits.KM5', 'splits.KM10', 'splits.KM15', 'splits.KM20', 'splits.KM25', 'splits.KM30', 'splits.KM35', 'splits.KM40', 'splits.finish', 'splits.KM21', 'splits.KM21.1']
+for col in time_cols:
+    df[col] = pd.to_timedelta(df[col])
+
+# Convertir le DataFrame en dictionnaire JSON
+json_data = df.to_dict(orient='records')
+
+# Écrire les données JSON dans un fichier
+with open('donnees.json', 'w') as f:
+    json.dump(json_data, f)
+
+
